@@ -91,5 +91,5 @@ if __name__ == '__main__':
                 self.cfg.set(key, value)
         def load(self):
             return self.application
-    options = {"bind": "0.0.0.0:8080", "workers": 20, "worker_class": "gevent"}  # Reduced workers to 1
+    options = {"bind": "0.0.0.0:8080", "workers": 5, "worker_class": "gevent"}  # Reduced workers to 1
     StandaloneApplication(app, options).run()
