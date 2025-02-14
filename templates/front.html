@@ -270,22 +270,12 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                document.getElementById('error').innerText = data.error;
-            } else {
-                displayResult(data);
-            }
+            const status = data.prediction === 0 ? 'Safe' : 'Attacked';
+            const popupMessage = `Prediction: ${status}\nProbability: ${data.prediction_probability}`;
+            document.getElementById('predictionResult').innerText = popupMessage;
+            document.getElementById('resultModal').style.display = 'flex';
         })
-        .catch(error => {
-            document.getElementById('error').innerText = 'An error occurred: ' + error.message;
-        });
-    }
-
-    function displayResult(data) {
-        const status = data.prediction === 0 ? 'Safe' : 'Attacked';
-        const popupMessage = `Prediction: ${status}\nProbability: ${data.prediction_probability}`;
-        document.getElementById('predictionResult').innerText = popupMessage;
-        document.getElementById('resultModal').style.display = 'flex';
+        
     }
 
     function closeModal() {
@@ -324,9 +314,7 @@
             document.getElementById("ipCheckResult").innerText = resultText;
             document.getElementById("ipResultModal").style.display = "flex";
         })
-        .catch(error => {
-            document.getElementById("ipError").innerText = "Error: " + error.message;
-        });
+        
     }
 
     function iptoip() {
