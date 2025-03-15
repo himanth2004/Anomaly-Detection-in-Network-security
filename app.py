@@ -147,8 +147,8 @@ def register():
     finally:
         conn.close()
 
-@app.route('/login')
-def home():
+@app.route('/login', methods=["GET"])
+def loginpage():
     return render_template('login.html')
 
 @app.route("/login", methods=["POST"])
@@ -185,8 +185,8 @@ def login():
             conn.close()
             
             
-@app.route('/analyze')
-def home():
+@app.route('/analyze', methods=["GET"])
+def analyzepage():
     return render_template('main.html')
 
 @app.route("/analyze", methods=["POST"])
@@ -318,8 +318,8 @@ def get_user_history():
     return jsonify(history_list), 200
 
 
-@app.route('/check_ip')
-def home():
+@app.route('/check_ip', methods=["GET"])
+def ipcheckerpage():
     return render_template('ipchecker.html')
 
 
@@ -339,5 +339,4 @@ def check_ip():
 
 
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
