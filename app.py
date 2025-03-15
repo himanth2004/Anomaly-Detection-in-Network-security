@@ -350,6 +350,14 @@ def check_ip():
 
 
 
+@app.route('/dashboard.html', methods=["GET"])
+def loginpage():
+    return render_template('logout.html')
+@app.route('/logout.html', methods=["GET"])
+def loginpage():
+    return render_template('logout.html')
+
+
 
 if __name__ == "__main__":
     init_db()
