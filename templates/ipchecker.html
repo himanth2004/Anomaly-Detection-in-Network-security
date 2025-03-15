@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Address Input</title>
+  <style>
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+        text-shadow: 0 0 10px rgb(241, 93, 93);
+    }
+
+    .header-buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background: #ff4757;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .btn:hover {
+        background: #ff6b81;
+    }
+    .header-buttons .btn1 {
+        padding: 10px 20px;
+        background: #ff4757;
+        margin-right: 60px;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #0a0f1f;
+      color: #fff;
+    }
+
+    .container {
+      text-align: center;
+      background: #1a1f3d;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 200px;
+      border: 2px solid #ff4757;
+      border-radius: 5px;
+      background: #2c3251;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #ff4757;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #ff6b81;
+    }
+
+   
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a1f3d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .popup p {
+      margin: 10px 0;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Ip checker</h1>
+        <div class="header-buttons">
+            <button class="btn" onclick="goToDashboard()">Dashboard</button>
+            <button class="btn1" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+
+  <div class="container">
+    <h1>Enter IP Address</h1>
+    <input type="text" id="ipInput" placeholder="Enter IP Address">
+    <button onclick="handleIpCheck()">Submit</button>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="popup" id="popup">
+    <h2 id="result">IP address result</h2>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  <script>
+    function handleIpCheck() {
+        const ipAddress = document.getElementById("ipInput").value;
+
+        fetch("http://127.0.0.1:5000/check_ip", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ip_address: ipAddress })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultText = data.blocked
+                ? `IP ${ipAddress} is BLOCKED! 🚨`
+                : `IP ${ipAddress} is SAFE ✅`;
+
+            document.getElementById("result").innerText = resultText;
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+    function goToDashboard() {
+        window.location.href = "dashboard.html";
+    }
+    function gotoip() {
+        window.location.href = "ipchecker.html";
+    }
+
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = "logout.html";
+    }
+
+
+  </script>
+</body>
+</html>

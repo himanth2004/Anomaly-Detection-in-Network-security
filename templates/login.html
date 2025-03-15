@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Registration</title>
+  <style>
+  
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1f3d, #0a0f1f);
+      color: #fff;
+    }
+
+    .container {
+      background: #2c3251;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background: #1a1f3d;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    input::placeholder {
+      color: #888;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border: none;
+      border-radius: 5px;
+      background: #ff4757;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #ff6b81;
+    }
+
+    .toggle-link {
+      color: #ff4757;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .toggle-link:hover {
+      color: #ff6b81;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .loading {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #ff6b81;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div id="login-page" class="container">
+    <h2>Login</h2>
+    <input type="text" id="login-username" placeholder="Username" required>
+    <input type="password" id="login-password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <span class="toggle-link" onclick="showRegister()">Register here</span></p>
+    <p class="loading" id="login-loading">Logging in...</p>
+  </div>
+
+  <div id="register-page" class="container hidden">
+    <h2>Register</h2>
+    <input type="text" id="register-username" placeholder="Username" required>
+    <input type="email" id="register-email" placeholder="Email" required>
+    <input type="password" id="register-password" placeholder="Password" required>
+    <button onclick="register()">Register</button>
+    <p>Already have an account? <span class="toggle-link" onclick="showLogin()">Login here</span></p>
+    <p class="loading" id="register-loading">Registering...</p>
+  </div>
+
+  <script>
+
+    function register() {
+      const username = document.getElementById('register-username').value.trim();
+      const email = document.getElementById('register-email').value.trim();
+      const password = document.getElementById('register-password').value.trim();
+
+      if (!username || !email || !password) {
+        alert("All fields are required!");
+        return;
+      }
+
+      document.getElementById('register-loading').style.display = 'block';
+
+      fetch('http://127.0.0.1:5000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, email })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Registration failed');
+        }
+        return response.json();
+      })
+      .then(result => {
+        alert(result.message);
+        if (result.message === "Registration successful") {
+          showLogin(); 
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("Registration failed. Try again later.");
+      })
+      .finally(() => {
+
+        document.getElementById('register-loading').style.display = 'none';
+      });
+    }
+
+    function login() {
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+
+      if (!username || !password) {
+        alert("Username and password are required!");
+        return;
+      }
+
+      document.getElementById('login-loading').style.display = 'block';
+
+      fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Login failed');
+        }
+        return response.json();
+      })
+      .then(result => {
+        localStorage.setItem("user_id", result.user_id);
+        localStorage.setItem("username", result.username);
+        window.location.href = "main.html"; 
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("Invalid username or password. Please try again.");
+      })
+      .finally(() => {
+        document.getElementById('login-loading').style.display = 'none';
+      });
+    }
+
+    function showRegister() {
+      document.getElementById('login-page').classList.add('hidden');
+      document.getElementById('register-page').classList.remove('hidden');
+    }
+
+    function showLogin() {
+      document.getElementById('register-page').classList.add('hidden');
+      document.getElementById('login-page').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

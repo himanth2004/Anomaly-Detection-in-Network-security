@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anomaly Detection in Network Security</title>
+  <style>
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      background: #0a0f1f;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 100px 50px;
+      background: linear-gradient(135deg, #1a1f3d, #0a0f1f);
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    .hero-content {
+      max-width: 600px;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .cta {
+      padding: 15px 30px;
+      background: #ff4757;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .cta:hover {
+      background: #ff6b81;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+
+    .features {
+      padding: 80px 50px;
+      background: #1a1f3d;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+    }
+
+    .feature-cards {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #2c3251;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      margin: 20px;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .how-it-works {
+      padding: 80px 50px;
+      background: #0a0f1f;
+      text-align: center;
+    }
+
+    .how-it-works h2 {
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      background: #2c3251;
+      padding: 20px;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+    }
+
+    .step span {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+  
+    footer {
+      padding: 20px;
+      background: #1a1f3d;
+      text-align: center;
+    }
+
+    footer a {
+      color: #ff4757;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+ 
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="animate-fade-in">Detect Threats Before They Strike</h1>
+      <p class="animate-slide-in">Advanced Anomaly Detection for Network Security</p>
+      <button class="cta animate-pop"  onclick="window.location.href='login.html'">Get Started Now</button>
+    </div>
+    <div class="hero-background">
+      <canvas id="network-canvas"></canvas>
+    </div>
+  </section>
+
+
+  <section class="features">
+    <h2>Key Features</h2>
+    <div class="feature-cards">
+      <div class="card">
+        <h3>Real-Time Monitoring</h3>
+        <p>Track network activity in real-time to identify anomalies instantly.</p>
+      </div>
+      <div class="card">
+        <h3>AI-Powered Insights</h3>
+        <p>Leverage AI to detect and predict potential threats.</p>
+      </div>
+      <div class="card">
+        <h3>Customizable Alerts</h3>
+        <p>Receive alerts tailored to your network's specific needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <span>1</span>
+        <p>Data is collected from your network in real-time.</p>
+      </div>
+      <div class="step">
+        <span>2</span>
+        <p>AI algorithms analyze the data for anomalies.</p>
+      </div>
+      <div class="step">
+        <span>3</span>
+        <p>Instant alerts are sent for any detected threats.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  <script>
+
+    const canvas = document.getElementById('network-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const nodes = [];
+    const edges = [];
+
+    class Node {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 3;
+        this.vx = Math.random() * 2 - 1;
+        this.vy = Math.random() * 2 - 1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#ff4757';
+        ctx.fill();
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+    }
+
+    class Edge {
+      constructor(node1, node2) {
+        this.node1 = node1;
+        this.node2 = node2;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.moveTo(this.node1.x, this.node1.y);
+        ctx.lineTo(this.node2.x, this.node2.y);
+        ctx.strokeStyle = 'rgba(255, 71, 87, 0.2)';
+        ctx.stroke();
+      }
+    }
+
+    function init() {
+      for (let i = 0; i < 50; i++) {
+        nodes.push(new Node(Math.random() * canvas.width, Math.random() * canvas.height));
+      }
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          if (Math.random() < 0.1) {
+            edges.push(new Edge(nodes[i], nodes[j]));
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      nodes.forEach(node => {
+        node.update();
+        node.draw();
+      });
+
+      edges.forEach(edge => {
+        edge.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+
+    gsap.from(".animate-fade-in", { opacity: 0, duration: 1.5, delay: 0.5 });
+    gsap.from(".animate-slide-in", { y: 50, opacity: 0, duration: 1, delay: 1 });
+    gsap.from(".animate-pop", { scale: 0, opacity: 0, duration: 0.8, delay: 1.5 });
+  </script>
+</body>
+</html>
