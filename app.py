@@ -180,7 +180,7 @@ def login():
             conn.close()
 
 @app.route("/analyze", methods=["POST"])
-def submit_network_data():
+def analyze():
     conn = None
     try:
         data = request.get_json()
