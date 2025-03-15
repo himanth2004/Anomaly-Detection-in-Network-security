@@ -236,7 +236,7 @@
         
             document.getElementById("historyLoading").style.display = "block";
 
-            fetch(`http://127.0.0.1:5000/get-user-history?user_id=${userId}`)
+            fetch(`https://anomalydetection-in-networksecurity.onrender.com/get-user-history?user_id=${userId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Failed to fetch history");
