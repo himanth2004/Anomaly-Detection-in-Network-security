@@ -357,7 +357,7 @@ def dashboardpage():
 def logoutpage():
     return render_template('logout.html')
 @app.route('/landingpage.html', methods=["GET"])
-def logoutpage():
+def landingpage():
     return render_template('landingpage.html')
 
 
