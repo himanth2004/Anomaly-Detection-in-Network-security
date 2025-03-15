@@ -351,10 +351,10 @@ def check_ip():
 
 
 @app.route('/dashboard.html', methods=["GET"])
-def loginpage():
-    return render_template('logout.html')
+def dashboardpage():
+    return render_template('dashboard.html')
 @app.route('/logout.html', methods=["GET"])
-def loginpage():
+def logoutpage():
     return render_template('logout.html')
 
 
