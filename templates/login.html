@@ -114,40 +114,33 @@
       const username = document.getElementById('register-username').value.trim();
       const email = document.getElementById('register-email').value.trim();
       const password = document.getElementById('register-password').value.trim();
-
+  
       if (!username || !email || !password) {
-        alert("All fields are required!");
-        return;
+          alert("All fields are required!");
+          return;
       }
-
-      document.getElementById('register-loading').style.display = 'block';
-
+  
+      console.log("📤 Sending data:", { username, email, password });  // Debugging
+  
       fetch('https://anomalydetection-in-networksecurity.onrender.com/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, email })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, email })  // Fix order
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Registration failed');
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(result => {
-        alert(result.message);
-        if (result.message === "Registration successful") {
-          showLogin(); 
-        }
+          console.log("📥 Server Response:", result);
+          alert(result.message);
+          if (result.message === "Registration successful") {
+              showLogin(); 
+          }
       })
       .catch(error => {
-        console.error('Error:', error);
-        alert("Registration failed. Try again later.");
-      })
-      .finally(() => {
-
-        document.getElementById('register-loading').style.display = 'none';
+          console.error('❌ Error:', error);
+          alert("Registration failed. Try again later.");
       });
-    }
+  }
+  
 
     function login() {
       const username = document.getElementById('login-username').value.trim();

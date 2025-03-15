@@ -121,17 +121,21 @@ def send_email(recipient_email, status, threats_detected):
 @app.route('/')
 def home():
     return render_template('landingpage.html')
-
-
 @app.route("/register", methods=["POST"])
 def register():
     """Register a new user"""
-    data = request.json
+    data = request.get_json()
+    print("📩 Received Data:", data)  # Debugging output
+
+    if not data:
+        return jsonify({"message": "No data received"}), 400
+
     username = data.get("username")
     password = data.get("password")
     email = data.get("email")
 
     if not username or not password or not email:
+        print("❌ Missing fields: Username, Password, or Email is empty")
         return jsonify({"message": "Username, password, and email are required"}), 400
 
     hashed_password = hash_password(password)
@@ -143,11 +147,18 @@ def register():
         cursor.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", 
                        (username, hashed_password, email))
         conn.commit()
+        print("✅ Registration successful!")
         return jsonify({"message": "Registration successful"}), 201
-    except sqlite3.IntegrityError:
+    except sqlite3.IntegrityError as e:
+        print("❌ Integrity Error:", e)
         return jsonify({"message": "Username or email already exists"}), 400
+    except Exception as e:
+        print("❌ Unexpected Error:", e)
+        return jsonify({"message": "Internal server error"}), 500
     finally:
         conn.close()
+
+
 
 @app.route('/login.html', methods=["GET"])
 def loginpage():
