@@ -120,6 +120,7 @@ def send_email(recipient_email, status, threats_detected):
 def home():
     return render_template('landingpage.html')
 
+
 @app.route("/register", methods=["POST"])
 def register():
     """Register a new user"""
@@ -145,6 +146,10 @@ def register():
         return jsonify({"message": "Username or email already exists"}), 400
     finally:
         conn.close()
+
+@app.route('/login')
+def home():
+    return render_template('login.html')
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -178,6 +183,11 @@ def login():
     finally:
         if conn:
             conn.close()
+            
+            
+@app.route('/analyze')
+def home():
+    return render_template('main.html')
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -307,6 +317,10 @@ def get_user_history():
 
     return jsonify(history_list), 200
 
+
+@app.route('/check_ip')
+def home():
+    return render_template('ipchecker.html')
 
 
 ip_df = pd.read_csv("ips.csv") 
