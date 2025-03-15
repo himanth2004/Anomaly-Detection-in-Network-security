@@ -16,6 +16,8 @@ from sklearn.preprocessing import LabelEncoder
 app = Flask(__name__)
 CORS(app)
 
+
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -147,7 +149,7 @@ def register():
     finally:
         conn.close()
 
-@app.route('/login', methods=["GET"])
+@app.route('/loginpage', methods=["GET"])
 def loginpage():
     return render_template('login.html')
 
