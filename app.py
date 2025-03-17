@@ -254,7 +254,7 @@ def analyze():
         prediction = model.predict(input_features)
         predicted_class = int(prediction[0])
 
-        now = datetime.datetime.now()
+        now = datetime.datetime.now(ZoneInfo("Asia/Kolkata"))
         date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M")
 
