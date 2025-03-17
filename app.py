@@ -11,7 +11,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from sklearn.preprocessing import LabelEncoder
-
+from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 CORS(app)
@@ -125,7 +125,7 @@ def home():
 def register():
     """Register a new user"""
     data = request.get_json()
-    print("📩 Received Data:", data)  # Debugging output
+    print("📩 Received Data:", data) 
 
     if not data:
         return jsonify({"message": "No data received"}), 400
