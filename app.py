@@ -12,7 +12,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from sklearn.preprocessing import LabelEncoder
 from zoneinfo import ZoneInfo
-import os
+
 
 app = Flask(__name__)
 CORS(app)
@@ -34,7 +34,7 @@ tcp_flags_encoder.fit(["SYN", "ACK", "FIN", "RST", "PSH", "URG", "ECE", "CWR", "
 protocol_encoder.fit(["TCP", "UDP", "ICMP", "IP", "SNMP", "SSL", "TLS", "IPsec"])
 l7_proto_encoder.fit(["HTTP", "FTP", "DNS", "HTTPS", "SMTP", "IMAP", "POP3", "SSH"])
 
-DATABASE =  os.path.join("/tmp", "database.db")
+DATABASE = "database.db"
 
 EMAIL_SENDER = "hvmanomalydetection@gmail.com"
 EMAIL_PASSWORD ="emfw ujyy heaq ombp"
