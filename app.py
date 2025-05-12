@@ -33,7 +33,7 @@ tcp_flags_encoder.fit(["SYN", "ACK", "FIN", "RST", "PSH", "URG", "ECE", "CWR", "
 protocol_encoder.fit(["TCP", "UDP", "ICMP", "IP", "SNMP", "SSL", "TLS", "IPsec"])
 l7_proto_encoder.fit(["HTTP", "FTP", "DNS", "HTTPS", "SMTP", "IMAP", "POP3", "SSH"])
 
-DATABASE = "database.db"
+DATABASE =  os.path.join("/tmp", "database.db")
 
 EMAIL_SENDER = "hvmanomalydetection@gmail.com"
 EMAIL_PASSWORD ="emfw ujyy heaq ombp"
