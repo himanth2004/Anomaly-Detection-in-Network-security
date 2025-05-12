@@ -12,6 +12,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from sklearn.preprocessing import LabelEncoder
 from zoneinfo import ZoneInfo
+import os
 
 app = Flask(__name__)
 CORS(app)
